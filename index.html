@@ -189,8 +189,8 @@ document.getElementById("file-process-trigger").addEventListener("click", functi
             value['ISSUE'] = tb_1[id] && 'ISSUE' in tb_1[id] ? tb_1[id]['ISSUE'] : '';
             value['OFFICE CONCERNED'] = tb_1[id] && 'OFFICE CONCERNED' in tb_1[id] ? tb_1[id]['OFFICE CONCERNED'] : '';
             var status = tb_1[id]['STATUS'] || '';
-            if(status == value['STATUS']){
-                master_tb.push(tb_1[id]);
+            if(status == value['STATUS'] || value['STATUS'] == 'LAPSE'){
+                master_tb.push(tb_1[id]); //no update
             }else{
                 master_tb.push(value);
             }
