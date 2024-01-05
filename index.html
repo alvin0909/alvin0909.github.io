@@ -185,7 +185,7 @@ document.getElementById("file-process-trigger").addEventListener("click", functi
         if(tb_1[id]){ //existing 
             value['STATUS'] = value['STATUS'] || '';
             value['CALL'] = tb_1[id] && 'CALL' in tb_1[id] ? tb_1[id]['CALL'] : '';
-	    value['CALLED DATE'] = tb_1[id] && 'CALLED DATE' in tb_1[id] ? tb_1[id]['CALLED DATE'] || '';
+	    value['CALLED DATE'] = tb_1[id] && 'CALLED DATE' in tb_1[id] ? tb_1[id]['CALLED DATE'] : '';
             value['HOLD CHECKING'] = tb_1[id] && 'HOLD CHECKING' in tb_1[id] ? tb_1[id]['HOLD CHECKING'] : '';
             value['ISSUE'] = tb_1[id] && 'ISSUE' in tb_1[id] ? tb_1[id]['ISSUE'] : '';
             value['OFFICE CONCERNED'] = tb_1[id] && 'OFFICE CONCERNED' in tb_1[id] ? tb_1[id]['OFFICE CONCERNED'] : '';
@@ -198,7 +198,7 @@ document.getElementById("file-process-trigger").addEventListener("click", functi
         }else{
 
             value['CALL'] =  '';
-	    value['CALLED DATE'] ='';
+	    value['CALLED DATE'] = '';
             value['HOLD CHECKING'] =  '';
             value['ISSUE'] = '';
             value['OFFICE CONCERNED'] =  '';
