@@ -192,6 +192,7 @@ document.getElementById("file-process-trigger").addEventListener("click", functi
             value['OFFICE CONCERNED'] = tb_1[id] && 'OFFICE CONCERNED' in tb_1[id] ? tb_1[id]['OFFICE CONCERNED'] : '';
             var status = tb_1[id]['STATUS'] || '';
             if(status == value['STATUS'] || value['STATUS'] == 'LAPSE'){
+		tb_1[id]['APPOINTMENT DATE'] = value['APPOINTMENT DATE'];
                 master_tb.push(tb_1[id]); //no update
             }else{
                 master_tb.push(value);
