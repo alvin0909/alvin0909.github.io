@@ -183,6 +183,7 @@ document.getElementById("file-process-trigger").addEventListener("click", functi
 
 
         if(tb_1[id]){ //existing 
+	    value['APPOINTMENT DATE'] = value['APPOINTMENT DATE'];
             value['STATUS'] = value['STATUS'] || '';
             value['CALL'] = tb_1[id] && 'CALL' in tb_1[id] ? tb_1[id]['CALL'] : '';
 	    value['CALLED DATE'] = tb_1[id] && 'CALLED DATE' in tb_1[id] ? tb_1[id]['CALLED DATE'] : '';
