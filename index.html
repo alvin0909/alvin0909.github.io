@@ -193,6 +193,7 @@ document.getElementById("file-process-trigger").addEventListener("click", functi
             var status = tb_1[id]['STATUS'] || '';
             if(status == value['STATUS'] || value['STATUS'] == 'LAPSE' || value['STATUS'] == 'SERVED'){
 		tb_1[id]['APPOINTMENT DATE'] = value['APPOINTMENT DATE'];
+		tb_1[id]['BUSINESS ACCOUNT NO'] = value['BUSINESS ACCOUNT NO'];    
                 master_tb.push(tb_1[id]); //no update
             }else{
                 master_tb.push(value);
