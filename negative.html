@@ -11,7 +11,9 @@
 <div>
     <button id="file-process-trigger">PROCESS PER OFFICE</button>
 
-    <button id="file-process-bin">PROCESS PER BIN</button>
+    <button id="file-process-bin">PROCESS PER BIN</button> 
+    
+    <button id="file-email-bin">PROCESS FOR EMAIL</button>
 </div>
 
 <div id="update-table"></div>
@@ -153,6 +155,18 @@ document.getElementById("file-one-trigger").addEventListener("click", function()
     table_one.import(customCSV, ".csv");
 });
 
+function replace_newline(value, data, type, params, column){
+    var str = '';
+    if(value){
+        str = value.replace(/<br>/g, "\n----------------\n");
+    }
+    return str;
+}
+
+function replace_none(value, data, type, params, column){
+
+    return value;
+}
 
 var table_update = new Tabulator("#update-table", {
     height:311,
@@ -168,27 +182,56 @@ var table_update = new Tabulator("#update-table", {
     autoColumnsDefinitions:function(definitions){
 
 
-        function replace_newline(value, data, type, params, column){
-
-            console.log(type);
-            var str = '';
-            if(value){
-                str = value.replace(/<br>/g, "\n----------------\n");
-            }
-            return str;
-        }
         //definitions - array of column definition objects
         definitions.forEach((column) => {
             column.headerFilter = true; 
             if(column.field == "HOLD DATE" || column.field == 'FINDINGS/\nREASON' ||  column.field == 'OFFICE'){
                 column.formatter = "html";
-                column.accessorDownload = replace_newline;
             }
 
         });
 
         return definitions;
     },
+});
+
+document.getElementById("file-email-bin").addEventListener("click", function(){
+    var table_1 = table_one.getData();
+   var tb_1 = {};
+   var master_tb = [];
+    for (const value of table_1) {
+        var yr_id = value['ACCOUNT NO.'] || value['ACCOUNT NO.'] || '';
+        var id = yr_id.trim();
+        if(!tb_1[id]){
+            tb_1[id] = [];
+        }
+
+        var tmp_office = tb_1[id]["OFFICE"] ?  tb_1[id]["OFFICE"]: '';
+        var tmp = tb_1[id]["FINDINGS/\nREASON"] ?  tb_1[id]["FINDINGS/\nREASON"] + "<br>" : '';
+        var hold_on = tb_1[id]["HOLD DATE"] ?  tb_1[id]["HOLD DATE"] + "<br>" : '';
+        
+        value["FINDINGS/\nREASON"] = tmp + "" + value["FINDINGS/\nREASON"] + " -- " + value["OFFICE"] ;
+        value["HOLD DATE"] = hold_on + "" + value["HOLD DATE"];
+        value["OFFICE"] = tmp_office + "" + value["OFFICE"];
+         
+        tb_1[id] = value;
+
+    }
+    master_tb = Object.values(tb_1);
+    table_update.setData(master_tb);
+
+    table_update.updateColumnDefinition("HOLD DATE", {accessorDownload:replace_none})
+    .then(function(column){
+    console.log("sample",column);
+        //column - column component for the updated column;
+    })
+    .catch(function(error){
+        console.log("error",error);
+        //handle column update error
+    });
+    table_update.updateColumnDefinition("FINDINGS/\nREASON", {accessorDownload:replace_none});
+    table_update.updateColumnDefinition("OFFICE", {accessorDownload:replace_none});
+
 });
 
 document.getElementById("file-process-bin").addEventListener("click", function(){
@@ -215,6 +258,11 @@ document.getElementById("file-process-bin").addEventListener("click", function()
 
     master_tb = Object.values(tb_1);
     table_update.setData(master_tb);
+    table_update.updateColumnDefinition("HOLD DATE", {accessorDownload:replace_newline});
+    table_update.updateColumnDefinition("FINDINGS/\nREASON", {accessorDownload:replace_newline});
+    table_update.updateColumnDefinition("OFFICE", {accessorDownload:replace_newline});
+
+
 });
 
 document.getElementById("file-process-trigger").addEventListener("click", function(){
@@ -239,6 +287,11 @@ document.getElementById("file-process-trigger").addEventListener("click", functi
 
     master_tb = Object.values(tb_1);
     table_update.setData(master_tb);
+    table_update.updateColumnDefinition("HOLD DATE", {accessorDownload:replace_newline});
+    table_update.updateColumnDefinition("FINDINGS/\nREASON", {accessorDownload:replace_newline});
+    table_update.updateColumnDefinition("OFFICE", {accessorDownload:replace_newline});
+
+
 });
 
 
